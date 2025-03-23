@@ -4,7 +4,7 @@ import FileInput from "./FileInput";
 import Button from "./Button";
 
 const Form = (props: IBannerForm) => {
-  const { bannerData, setBannerData } = props;
+  const { setBannerData } = props;
 
   const {
     register,
@@ -50,7 +50,7 @@ const Form = (props: IBannerForm) => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="text-sm">
-          <label>Change Banner text</label>
+          <label htmlFor="bannerText">Change Banner text</label>
           <div className="flex flex-col md:flex-row mt-1 gap-2 md:gap-0">
             <input
               type="text"
@@ -58,6 +58,7 @@ const Form = (props: IBannerForm) => {
               {...register("bannerData.bannerText", {
                 required: `Banner text is required`,
               })}
+              id="bannerText"
               className="shadow-sm p-1.5 border rounded-r-sm md:rounded-r-none md:rounded-l-sm border-none bg-gray-50 focus:border-none form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden text-[#1C160C] focus:outline-0 focus:ring-0 text-base font-normal leading-normal"
             />
 
@@ -77,7 +78,7 @@ const Form = (props: IBannerForm) => {
         </div>
 
         <div className="text-sm">
-          <label>Change Banner description</label>
+          <label htmlFor="bannerDesc">Change Banner description</label>
           <div className="flex flex-col md:flex-row mt-1 gap-2 md:gap-0 md:items-end">
             <textarea
               rows={2}
@@ -85,6 +86,7 @@ const Form = (props: IBannerForm) => {
               {...register("bannerData.bannerDesc", {
                 required: `Banner description is required`,
               })}
+              id="bannerDesc"
               className="shadow-sm p-1.5 border rounded-r-sm md:rounded-r-none md:rounded-l-sm border-none bg-gray-50 focus:border-none form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden text-gray-900 focus:outline-0 focus:ring-0 text-base font-normal leading-normal"
             />
             <Button
@@ -103,14 +105,12 @@ const Form = (props: IBannerForm) => {
         </div>
 
         <FileInput
-          bannerData={bannerData}
           setBannerData={setBannerData}
           id="bannerBg"
           label="Change Banner Background"
         />
 
         <FileInput
-          bannerData={bannerData}
           setBannerData={setBannerData}
           id="bannerImg"
           label="Change Banner Small Image"

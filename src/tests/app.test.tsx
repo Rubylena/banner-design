@@ -6,10 +6,10 @@ describe("App Component", () => {
   it("renders the Header, Banner, Form, and Footer", () => {
     render(<App />);
 
-    expect(screen.getByTestId("banner")).toBeInTheDocument(); // Banner
-    expect(screen.getByRole("form")).toBeInTheDocument(); // Form
-    expect(screen.getByRole("header")).toBeInTheDocument(); // Footer
-    expect(screen.getByRole("footer")).toBeInTheDocument(); // Header
+    expect(screen.getByTestId("banner")).toBeInTheDocument();
+    expect(screen.getByRole("form")).toBeInTheDocument();
+    expect(screen.getByRole("header")).toBeInTheDocument();
+    expect(screen.getByRole("footer")).toBeInTheDocument();
   });
 
   it("displays the correct initial banner text", () => {

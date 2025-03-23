@@ -1,8 +1,8 @@
-# Wikimedia Banner Design
+# Wikimedia Banner Design [Live link](https://wikimedia-banner-design.netlify.app/)
 
 ## Features
 
-- A dynamic banner that changes text and color using React state.
+- A dynamic banner that changes text, background image and inner banner image using React state.
 - Built with Vite, React, TypeScript, and Tailwind CSS.
 - Unit tests with Vitest and React Testing Library.
 
