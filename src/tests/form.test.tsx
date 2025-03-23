@@ -49,6 +49,14 @@ describe("Form Component", () => {
     await waitFor(() => {
       expect(mockSetBannerData).toHaveBeenCalledWith(expect.any(Function));
     });
+
+    await waitFor(() => {
+      mockSetBannerData.mock.calls[0][0]((prev: any) => {
+        expect(prev.bannerText).toBe("New Banner Text");
+        expect(prev.bannerDesc).toBe("New Banner Description");
+        return prev;
+      });
+    });
   });
 
   it("updates bannerText when 'Update Text' button is clicked", async () => {
@@ -134,5 +142,98 @@ describe("Form Component", () => {
     );
 
     expect(submitButton).toBeDisabled();
+  });
+
+  it("enables the 'Update Text' button when bannerText is changed", async () => {
+    render(<Form bannerData={bannerData} setBannerData={mockSetBannerData} />);
+
+    const textInput = screen.getByPlaceholderText("Change banner text");
+    const updateTextButton = screen.getByRole("button", {
+      name: /update text/i,
+    });
+
+    await userEvent.type(textInput, "New Text");
+
+    expect(updateTextButton).not.toBeDisabled();
+  });
+
+  it("enables the 'Update Desc' button when bannerDesc is changed", async () => {
+    render(<Form bannerData={bannerData} setBannerData={mockSetBannerData} />);
+
+    const descInput = screen.getByPlaceholderText("Change banner description");
+    const updateDescButton = screen.getByRole("button", {
+      name: /update desc/i,
+    });
+
+    await userEvent.type(descInput, "New Description");
+
+    expect(updateDescButton).not.toBeDisabled();
+  });
+
+  it("does not update bannerText if 'Update Text' button is clicked without changing the text", async () => {
+    render(<Form bannerData={bannerData} setBannerData={mockSetBannerData} />);
+
+    const updateTextButton = screen.getByRole("button", {
+      name: /update text/i,
+    });
+
+    await userEvent.click(updateTextButton);
+
+    await waitFor(() => {
+      expect(mockSetBannerData).not.toHaveBeenCalled();
+    });
+  });
+
+  it("does not update bannerDesc if 'Update Desc' button is clicked without changing the description", async () => {
+    render(<Form bannerData={bannerData} setBannerData={mockSetBannerData} />);
+
+    const updateDescButton = screen.getByRole("button", {
+      name: /update desc/i,
+    });
+
+    await userEvent.click(updateDescButton);
+
+    await waitFor(() => {
+      expect(mockSetBannerData).not.toHaveBeenCalled();
+    });
+  });
+
+  it("handles file input correctly for small image", async () => {
+    render(<Form bannerData={bannerData} setBannerData={mockSetBannerData} />);
+
+    const fileInput = screen.getByLabelText("Change Banner Small Image");
+    const file = new File(["dummy content"], "small.jpg", {
+      type: "image/jpeg",
+    });
+
+    await userEvent.upload(fileInput, file);
+
+    await waitFor(() => {
+      expect(mockSetBannerData).toHaveBeenCalledWith(expect.any(Function));
+    });
+  });
+
+  it("keeps the 'Update All text' button disabled if form is invalid after changes", async () => {
+    render(<Form bannerData={bannerData} setBannerData={mockSetBannerData} />);
+
+    const textInput = screen.getByPlaceholderText("Change banner text");
+    const descInput = screen.getByPlaceholderText("Change banner description");
+    const submitButton = screen.getByRole("button", {
+      name: /update all text/i,
+    });
+
+    await userEvent.clear(textInput);
+    await userEvent.clear(descInput);
+
+    expect(submitButton).toBeDisabled();
+  });
+
+  it("displays the correct initial text in inputs", () => {
+    render(<Form bannerData={bannerData} setBannerData={mockSetBannerData} />);
+
+    expect(screen.getByPlaceholderText("Change banner text")).toHaveValue("");
+    expect(
+      screen.getByPlaceholderText("Change banner description")
+    ).toHaveValue("");
   });
 });

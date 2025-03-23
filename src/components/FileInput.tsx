@@ -2,12 +2,10 @@ import { SetStateAction } from "react";
 import { IBanner } from "../utils/interface";
 
 const FileInput = ({
-  bannerData,
   setBannerData,
   id,
   label,
 }: {
-  bannerData: IBanner;
   setBannerData: React.Dispatch<SetStateAction<IBanner>>;
   id: string;
   label: string;
