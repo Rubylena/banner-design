@@ -1,14 +1,43 @@
-import { render, screen } from "@testing-library/react";
-import App from "../App"
+import { render, screen, fireEvent } from "@testing-library/react";
+import { describe, it, expect } from "vitest";
+import App from "../App";
 
-test("renders App component with image", () => {
-  render(<App />);
-
-  expect(screen.getByAltText("logo")).toBeInTheDocument();
-});
-
-test("renders App component with text", () => {
+describe("App Component", () => {
+  it("renders the Header, Banner, Form, and Footer", () => {
     render(<App />);
 
-    expect(screen.getByText(/testing cases/i)).toBeInTheDocument()
-})
+    expect(screen.getByTestId("banner")).toBeInTheDocument(); // Banner
+    expect(screen.getByRole("form")).toBeInTheDocument(); // Form
+    expect(screen.getByRole("header")).toBeInTheDocument(); // Footer
+    expect(screen.getByRole("footer")).toBeInTheDocument(); // Header
+  });
+
+  it("displays the correct initial banner text", () => {
+    render(<App />);
+    expect(screen.getByText("I love building awesome UIs!")).toBeInTheDocument();
+  });
+
+  it("updates the banner text when form is submitted", () => {
+    render(<App />);
+
+    const input = screen.getByPlaceholderText("Change banner text");
+    const updateButton = screen.getByRole("button", { name: /update text/i });
+
+    fireEvent.change(input, { target: { value: "New Banner Text" } });
+    fireEvent.click(updateButton);
+
+    expect(screen.getByText("New Banner Text")).toBeInTheDocument();
+  });
+
+  it("updates the banner description when form is submitted", () => {
+    render(<App />);
+
+    const textarea = screen.getByPlaceholderText("Change banner description");
+    const updateButton = screen.getByRole("button", { name: /update desc/i });
+
+    fireEvent.change(textarea, { target: { value: "New description" } });
+    fireEvent.click(updateButton);
+
+    expect(screen.getByText("New description")).toBeInTheDocument();
+  });
+});
