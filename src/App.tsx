@@ -4,14 +4,10 @@ import { IBanner } from "./utils/interface";
 import Form from "./components/Form";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import { DEFAULT_BANNER_DATA } from "./data/constant";
 
 function App() {
-  const [bannerData, setBannerData] = useState<IBanner>({
-    bannerText: "I love building awesome UIs!",
-    bannerBg: "/assets/img/bg2.jpg",
-    bannerImg: "/assets/img/e1.jpg",
-    bannerDesc: "I’m Grace, a software engineer based in Nigeria. I enjoy building intuitive user interfaces.",
-  });
+  const [bannerData, setBannerData] = useState<IBanner>(DEFAULT_BANNER_DATA);
 
   return (
     <div className="min-h-screen flex flex-col justify-between">
